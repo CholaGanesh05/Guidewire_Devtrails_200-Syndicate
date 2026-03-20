@@ -47,14 +47,14 @@ A **dynamically priced parametric income insurance** for Swiggy / Zomato deliver
 
 - Monitors real-time disruptions across **hyper-local 2–5 km micro-zones**
 - **Autonomous Agentic workflows** validate conditions and trigger payouts based on learned local baselines
-- Pays via **UPI within 24 hours** — no claim, no call, no paperwork
+- Pays via **UPI within 5 mins** — no claim, no call, no paperwork (maximum time for waiting : 24 hrs)
 - Pricing is **dynamically adjusted weekly** per rider zone, season, and trust history
 
 > ⚠️ Income loss **only**. No health, accidents, vehicle, or life coverage. Ever.
 
 ---
 
-## 👤 Who We're Building For
+## 👤 Who We're Building For (Example Explaination)
 
 **Ravi, 28 | Swiggy Partner | Bengaluru**
 Lost 6 days of income last monsoon. Zero compensation. Had no choice but to ride in dangerous conditions because stopping meant no money. Uses WhatsApp daily, will not install a new app, earns ₹800/day and lives week to week.
