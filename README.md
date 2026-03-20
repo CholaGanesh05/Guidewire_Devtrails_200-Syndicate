@@ -20,7 +20,7 @@
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 📄 Full Idea Blueprint     | [View Document](https://amritauniv-my.sharepoint.com/:w:/g/personal/am_sc_u4cse23115_am_students_amrita_edu/IQCVzuaYIhchQLL6ajj7_87hAfzg6-X4A--Vp4zjhCjI7nc?e=SzPjhA)     |
 | 📊 Pitch Deck (PPT)        | [View Presentation](https://amritauniv-my.sharepoint.com/:p:/g/personal/am_sc_u4cse23115_am_students_amrita_edu/IQC_OlpH3iEfSqNm1FDoLxeiAV4SrmrpWD9JJaTB4TFxFjg?e=rex3kN) |
-| 🎥 2-Minute Strategy Video | [Watch Video](https://www.youtube.com/watch?v=pj8aIrwg_rI)                                                                                                                |
+| 🎥 Detailed - Strategy Video | [Watch Video](https://www.youtube.com/watch?v=pj8aIrwg_rI)                                                                                                                |
 | 🗂️ GitHub Repository      | [Open Repository](https://github.com/CholaGanesh05/Guidewire_Devtrails_200-Syndicate) *(main branch)*                                                                     |
 
 
