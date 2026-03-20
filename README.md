@@ -8,7 +8,7 @@
 ![Swiggy / Zomato](https://img.shields.io/badge/Persona-Swiggy%20%2F%20Zomato-1a9cbf?style=for-the-badge)
 ![Income Loss Only](https://img.shields.io/badge/Coverage-Income%20Loss%20Only-27ae60?style=for-the-badge)
 
-> **"We don't insure events — we insure the earning potential lost when events break a rider's ability to work, personalized to their zone and behaviour."**
+> **"We don't insure events — we insure the earning potential lost when events break a rider's ability to work, dynamically personalized to their zone and behaviour."**
 
 </div>
 
@@ -27,29 +27,29 @@
 
 ## ⚡ The One Idea That Separates Us
 
-Every other team will trigger a payout when it rains.  
-**We ask: is this rain abnormal for this specific zone?**
+Every other team will trigger a static payout when it rains.  
+**We ask: how abnormal is this condition for this specific zone, and how much does it truly impact earning potential?**
 
 ```
-A Bengaluru rider during monsoon   →  rain is NORMAL   →  no payout
-A Jaipur rider during moderate rain →  rain is RARE     →  payout triggers
-A Chennai rider on a 42°C day      →  heat is NORMAL   →  no payout
-A Shimla rider on a 32°C day       →  heat is RARE     →  payout triggers
+A Bengaluru rider during monsoon    → rain is expected → baseline payout adjusted dynamically
+A Jaipur rider during moderate rain → rain is rare     → higher severity payout triggers
+A Chennai rider on a 42°C day       → heat is common   → proportional L1/L2 payout based on dynamic local tolerance
+A Shimla rider on a 32°C day        → heat is rare     → high L3/L4 payout triggers
 ```
 
-> **Trigger = deviation beyond the zone's own historical baseline, not a fixed global number.**  
-> This is what makes GigShield fair — and unfakeable.
+> **Trigger = dynamic percentage based on deviation from the zone's own historical baseline.**
+> It's not a binary "yes/no" — the payout scales proportionally to how severely the local normal is disrupted.
 
 ---
 
 ## 💡 What GigShield Is
 
-A **₹25/week parametric income insurance** for Swiggy / Zomato delivery partners.
+A **dynamically priced parametric income insurance** for Swiggy / Zomato delivery partners, powered by Agentic AI.
 
 - Monitors real-time disruptions across **hyper-local 2–5 km micro-zones**
-- **Auto-triggers payouts** only when conditions break the zone's learned normal
-- Pays via **UPI in under 60 seconds** — no claim, no call, no paperwork
-- Pricing is **AI-adjusted weekly** per rider zone, season, and trust history
+- **Autonomous Agentic workflows** validate conditions and trigger payouts based on learned local baselines
+- Pays via **UPI within 24 hours** — no claim, no call, no paperwork
+- Pricing is **dynamically adjusted weekly** per rider zone, season, and trust history
 
 > ⚠️ Income loss **only**. No health, accidents, vehicle, or life coverage. Ever.
 
@@ -68,45 +68,47 @@ Lost 6 days of income last monsoon. Zero compensation. Had no choice but to ride
 ONBOARD (2 min via WhatsApp)
   Name · Zone · Platform · Avg daily earnings
         ↓
-AI RISK PROFILE
+AGENTIC AI RISK PROFILING
   Zone baseline built from 90-day historical data
   Seasonal modifier applied (monsoon / heat / cold)
   Rider trust score initialised
         ↓
-WEEKLY PREMIUM GENERATED  →  ₹27 this week  →  Ravi pays via UPI  →  Policy ACTIVE
+DYNAMIC WEEKLY PREMIUM → e.g., ₹22 this week (AI-calculated) → Ravi pays via UPI → Policy ACTIVE
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 WEDNESDAY 3 PM — DISRUPTION DETECTED
   Rain in Koramangala: 48 mm/hr  (zone baseline: 22 mm/hr)  → deviation: +118%
-  AQI: 342  (zone safe threshold: 200)                       → deviation: +71%
-  Multi-signal fusion: Rain(L3) + AQI(L2) → Combined = L3
+  AQI: 342  (zone safe threshold: 200)                      → deviation: +71%
+  Agentic Multi-signal fusion: Rain(L3) + AQI(L2) → Combined = L3
 
-VALIDATE (all must pass)
+AI VALIDATION (all must pass autonomously)
   Ravi's GPS in disruption zone  ✅
   Swiggy order volume drop −68%  ✅
   No GPS spoof detected          ✅
   No prior claim today           ✅
 
-PAYOUT
+PAYOUT CALCULATION
   Hourly rate = last 7-day avg earnings ÷ avg active hours = ₹800 ÷ 8 = ₹100/hr
   Estimated lost hours = 4 hrs (peak window blocked)
-  Payout = 4 × ₹100 × 75% (L3 severity) = ₹300
+  Dynamic Payout = 4 × ₹100 × 75% (L3 severity adjusted for local baseline) = ₹300
 
-  → UPI credit in < 60 seconds
-  → WhatsApp: "₹300 credited. GigShield covered your disruption. Stay safe 🛡️"
+  → UPI credit processed within 24 hours
+  → WhatsApp: "₹300 processing for Koramangala disruption. GigShield has you covered. Stay safe 🛡️"
 ```
 
 ---
 
 ## 🧠 The Intelligence Layer
 
+### Agentic AI Orchestrator
+Instead of static scripts, autonomous AI agents continuously monitor API streams (weather, traffic, government feeds). When an anomaly is detected, the agent independently cross-references rider GPS and platform demand to validate the disruption and initiate the payout workflow without human intervention.
+
 ### Geo-Adaptive Baseline Engine
 ```
 Zone Trigger Threshold = μ(zone, last 90 days) + k × σ(zone)
 ```
-Zone baselines update **weekly**. The system gets smarter — a new construction zone
-causing traffic anomalies gets learned and priced in within one cycle.
+Zone baselines update **weekly**. The system gets smarter — a new construction zone causing traffic anomalies gets learned and priced in within one cycle.
 
 ### Income Estimation Model
 Payout is never a flat number. It reflects actual earning potential:
@@ -120,15 +122,15 @@ Single disruptions rarely capture full impact. GigShield combines signals:
 ```
 Rain(L2) + Traffic(L2) + Demand Drop(L3)  →  fused score  →  L3 payout
 ```
-Prevents underestimation of real-world compound disruptions.
 
 ### AI Models at a Glance
-| Model | Role |
+
+| Model / Tech | Role |
 |---|---|
-| XGBoost | Dynamic weekly premium prediction |
-| Regression | Real-time hourly income estimation |
-| Isolation Forest | Fraud and anomaly detection |
-| Time-series (ARIMA) | Disruption forecasting for insurer dashboard |
+| Agentic Framework | Autonomous monitoring, multi-step validation, and workflow orchestration |
+| XGBoost / LightGBM | Dynamic weekly premium prediction based on multi-factor risk |
+| Deep Learning (Regression) | Real-time hourly income estimation |
+| Isolation Forest | Unsupervised fraud, spoofing, and anomaly detection |
 
 ---
 
@@ -146,29 +148,33 @@ Prevents underestimation of real-world compound disruptions.
 
 ---
 
-## 💰 Weekly Pricing Model
+## 💰 Dynamic Weekly Pricing Model
+
+Premiums are not fixed — they are dynamically generated each week using AI to ensure fairness and platform sustainability:
 
 ```
-Base Premium              ₹20 / week
-+ Zone Risk Score         ₹0–10   (historical disruption frequency)
-+ Seasonal Modifier       ₹0–5    (monsoon +5 · summer +3 · winter +0)
-− Trust Discount          ₹0–5    (honest + consistent riders pay less)
-────────────────────────────────────
-Weekly Premium            ₹15–35  · No lock-in · Renews every Monday
-Max Daily Payout          ₹600    · Capped regardless of disruption level
+Dynamic Base Premium (AI-Generated)
+± Zone Risk Score        (historical disruption frequency & severity)
+± Seasonal Modifier      (monsoon / summer / winter weighting)
+− Trust Discount         (honest + consistent riders pay less)
+─────────────────────────────────────────────────────────────
+Final Weekly Premium     · Dynamically priced (e.g., ₹15–₹40)
+Max Daily Payout         · Capped based on tier (up to ₹600/day)
 ```
 
 ---
 
-## ⚙️ Disruption Levels
+## ⚙️ Disruption Levels (Dynamically Weighted)
+
+Payout percentages are proportional to how severely the current condition deviates from the local baseline.
 
 | Level | Condition | Payout |
 |---|---|---|
 | L0 | Within zone baseline | 0% |
-| L1 | Mild deviation | 25% of estimated lost income |
-| L2 | Moderate deviation | 50% |
-| L3 | High deviation — unsafe / halted | 75% |
-| L4 | Complete shutdown / declared disaster | 100% (capped ₹600/day) |
+| L1 | Mild deviation | ~25% of estimated lost income |
+| L2 | Moderate deviation | ~50% of estimated lost income |
+| L3 | High deviation — unsafe / halted work | ~75% of estimated lost income |
+| L4 | Complete shutdown / declared disaster | 100% (capped based on tier) |
 
 **Edge cases handled:**
 - Rider offline before disruption starts → no payout
@@ -182,14 +188,14 @@ Max Daily Payout          ₹600    · Capped regardless of disruption level
 
 ```
 ┌───────────────────┬──────────────────────────┬──────────────────────┐
-│   DATA INPUTS     │    INTELLIGENCE CORE      │   OUTPUTS            │
+│   DATA INPUTS     │    INTELLIGENCE CORE     │    OUTPUTS           │
 ├───────────────────┼──────────────────────────┼──────────────────────┤
-│ OpenWeatherMap    │ Geo Baseline Engine       │ UPI (Razorpay mock)  │
-│ OpenAQ / CPCB     │ Multi-Trigger Fusion      │ WhatsApp Alerts      │
-│ Maps / Traffic    │ XGBoost Premium ML        │ Rider Dashboard      │
-│ Platform Signal   │ Income Estimation Model   │ Insurer Console      │
-│ GPS Feed          │ Isolation Forest (Fraud)  │ Predictive Analytics │
-│ Gov Alert Feed    │ Trust Score Engine        │ Weekly Audit Log     │
+│ OpenWeatherMap    │ Agentic Orchestrator     │ UPI (Razorpay mock)  │
+│ OpenAQ / CPCB     │ Geo Baseline Engine      │ WhatsApp Alerts      │
+│ Maps / Traffic    │ Multi-Trigger Fusion     │ Rider Dashboard      │
+│ Platform Signal   │ Dynamic Pricing Model    │ Insurer Console      │
+│ GPS Feed          │ Isolation Forest (Fraud) │ Predictive Analytics │
+│ Gov Alert Feed    │ Trust Score Engine       │ Weekly Audit Log     │
 └───────────────────┴──────────────────────────┴──────────────────────┘
         All triggers are zone-relative. Baselines update weekly.
 ```
@@ -201,13 +207,13 @@ Max Daily Payout          ₹600    · Capped regardless of disruption level
 | Layer | Choice | Why |
 |---|---|---|
 | Rider UX | WhatsApp Business API | Zero install, already used daily |
-| Dashboard | React.js | Insurer analytics + rider portal |
-| Backend | FastAPI (Python) | Real-time trigger processing |
-| AI / ML | XGBoost · scikit-learn | Pricing, fraud, forecasting |
+| AI / Logic | Python + LangChain / LlamaIndex | Agentic AI orchestration and decisioning |
+| ML Models | XGBoost · scikit-learn | Dynamic pricing, fraud detection |
+| Backend | FastAPI (Python) | High-concurrency real-time processing |
 | Database | PostgreSQL + Redis | Persistent data + live zone cache |
-| Payments | Razorpay Test Mode | UPI simulation for demo |
+| Payments | Razorpay Test Mode | UPI simulation for demo (<24h processing) |
 | Geo | Google Maps + Leaflet.js | Zone mapping + GPS validation |
-| Weather | OpenWeatherMap (free) | Reliable, India-wide |
+| Weather | OpenWeatherMap (free tier) | Reliable, India-wide coverage |
 | AQI | OpenAQ / CPCB (free) | India-specific monitoring nodes |
 
 ---
@@ -220,7 +226,7 @@ Max Daily Payout          ₹600    · Capped regardless of disruption level
 | Zone presence | GPS vs disruption boundary cross-check |
 | Activity validation | Real order volume drop required to confirm income loss |
 | Duplicate accounts | Device fingerprinting + phone deduplication |
-| Claim rate abuse | Hard limit: one payout window per disruption per rider |
+| Claim rate abuse | Hard limit — one payout window per disruption per rider |
 
 ---
 
@@ -231,15 +237,15 @@ Riders who are honest and consistent earn better terms:
 | Tier | Score | Benefit |
 |---|---|---|
 | 🥉 Bronze | 0–40 | Standard premium and payout cap |
-| 🥈 Silver | 41–70 | −₹3/week · +10% payout cap |
-| 🥇 Gold | 71–100 | −₹5/week · +25% payout cap |
+| 🥈 Silver | 41–70 | Discounted premium · +10% payout cap |
+| 🥇 Gold | 71–100 | Highest discount · +25% payout cap |
 
 ---
 
 ## 🌍 Scalability Path
 
 GigShield's engine is persona-agnostic. Phase 1 targets food delivery.  
-The same geo-adaptive model extends to:
+The same geo-adaptive, agentic model extends to:
 **E-commerce (Amazon/Flipkart) → Q-Commerce (Zepto/Blinkit) → Cab drivers (Uber/Ola) → Logistics gig workers**
 
 One engine. Every gig worker in India.
@@ -250,11 +256,11 @@ One engine. Every gig worker in India.
 
 - [x] Unique geo-adaptive positioning defined
 - [x] Persona scenario + end-to-end workflow
-- [x] Weekly dynamic premium model
-- [x] L0–L4 trigger system with zone-relative thresholds
+- [x] Dynamic AI weekly premium model integrated
+- [x] L0–L4 proportional trigger system with zone-relative thresholds
 - [x] Income estimation model
-- [x] Multi-trigger fusion logic
-- [x] AI model breakdown (pricing · fraud · forecasting)
+- [x] Multi-trigger fusion & Agentic AI logic
+- [x] AI model breakdown (pricing · fraud · orchestration)
 - [x] Edge case handling
 - [x] Fraud detection strategy
 - [x] Tech stack + platform justified
@@ -271,14 +277,15 @@ One engine. Every gig worker in India.
 |---|---|
 | Hackathon | Guidewire DEVTrails 2026 · University Hackathon · In partnership with EY |
 | Phase | 1 — Seed: Ideation & Foundation · Deadline: March 20, 2026 |
-| Participant | Chola Chetan Chukkala |
+| Team | 200 Syndicate |
+| Participants | Chola Chetan Chukkala, David Shibu, Evan Binu Chirayath, Jacob Isaac |
 | Repository | [CholaGanesh05/Guidewire_Devtrails_200-Syndicate](https://github.com/CholaGanesh05/Guidewire_Devtrails_200-Syndicate) |
 
 ---
 
 <div align="center">
 
-*Not just insurance. An adaptive income protection engine that understands*  
+*Not just insurance. An autonomous, adaptive income protection engine that understands*
 *where you live, how you work, and when the world truly gets in your way.*
 
 **GigShield · Guidewire DEVTrails 2026 · Seed → Scale → Soar 🚀**
