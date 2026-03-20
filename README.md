@@ -1,315 +1,233 @@
-# 🛡️ GigShield — AI-Powered Parametric Income Insurance for Delivery Workers
+# 🛡️ GigShield
+### AI-Powered Parametric Income Insurance for India's Delivery Workers
 
 <div align="center">
 
 ![Guidewire DEVTrails 2026](https://img.shields.io/badge/Guidewire-DEVTrails%202026-0e6e8c?style=for-the-badge)
-![Phase](https://img.shields.io/badge/Phase-1%20%7C%20Seed-f5a623?style=for-the-badge)
-![Persona](https://img.shields.io/badge/Persona-Food%20Delivery%20(Swiggy%2FZomato)-1a9cbf?style=for-the-badge)
-![Coverage](https://img.shields.io/badge/Coverage-Income%20Loss%20Only-2ecc71?style=for-the-badge)
+![Phase 1](https://img.shields.io/badge/Phase-1%20·%20Seed-f5a623?style=for-the-badge)
+![Persona](https://img.shields.io/badge/Persona-Swiggy%20%2F%20Zomato-1a9cbf?style=for-the-badge)
+![Coverage](https://img.shields.io/badge/Coverage-Income%20Loss%20Only-27ae60?style=for-the-badge)
 
-### *"When the rain stops deliveries, GigShield starts paying."*
-
-*Zero paperwork. Zero waiting. Instant weekly income protection for India's gig workforce.*
+**"It's not about rain. It's about rain *beyond what your zone can handle.*"**
 
 </div>
 
 ---
 
-## ⚡ The Big Idea — In 30 Seconds
+## 📎 Resources
 
-India's **8M+ food delivery partners** earn ₹500–₹1,200/day. One heavy rainstorm, a curfew, or a severe pollution spike wipes out an entire day's wages — and **nobody compensates them**.
-
-**GigShield** is a ₹25/week AI-powered parametric insurance that:
-
-- 🔍 **Monitors** weather, AQI, traffic and social disruptions in real time across hyper-local micro-zones
-- ⚡ **Auto-triggers** payouts the moment measurable thresholds are crossed — no claim filing, ever
-- 💸 **Pays instantly** via UPI within 60 seconds of trigger validation
-- 🧠 **Learns continuously** — dynamic weekly pricing adjusted per rider, zone, behavior and season
-
-> ⚠️ **Strictly income-only coverage.** No health, life, accident, or vehicle repair payouts — ever.
-
----
-
-## 💡 Novelty — What Makes This Different
-
-| What Exists Today | What GigShield Does |
+| | Link |
 |---|---|
-| Manual claim filing taking days | ✅ Zero-touch parametric auto-trigger |
-| Generic city-level weather data | ✅ Hyper-local 2–5 km micro-zone intelligence |
-| Flat monthly or annual premiums | ✅ AI-adjusted dynamic **weekly** pricing |
-| Single disruption trigger | ✅ Multi-signal fusion (rain + AQI + traffic + platform downtime) |
-| App-download-required UX | ✅ WhatsApp-first, multilingual, low-data UX |
-| Trust-neutral platforms | ✅ Gamified trust scoring with payout bonuses |
-| Insurer-controlled validation | ✅ AI validates using objective, auditable external data |
+| 📘 Guidewire DEVTrails Problem Booklet | *(link)* |
+| 📄 Full Idea Blueprint (detailed document) | *(OneDrive link — to be added)* |
+| 🎥 2-Minute Strategy Video | *(YouTube / Drive — to be added)* |
 
 ---
 
-## 👤 Persona — Who We're Building For
+## ⚡ The Core Insight — What Sets Us Apart
 
-**Ravi, 28 | Swiggy Food Delivery Partner | Bengaluru**
+Every other team will build a weather insurance product.  
+**We're building a local-intelligence disruption engine.**
 
-> *"Last monsoon I lost 6 days of income. Nobody helped. I had no option but to keep riding in the rain."*
+> A Bengaluru rider **is not paid** just because it rained during monsoon — that's normal for them.  
+> A Jaipur rider **is paid** when it rains moderately — because that's rare, disruptive, and genuinely impacts their income.
 
-| Attribute | Detail |
-|---|---|
-| Daily earning | ₹700–₹900 across lunch and dinner peaks |
-| Vehicle | Two-wheeler; heavily impacted by rain, heat, AQI |
-| Tech comfort | WhatsApp daily user; avoids new app downloads |
-| Pain point | Zero safety net for uncontrollable external events |
-| Trust need | Transparency in how payouts are calculated |
+**GigShield's trigger = deviation from YOUR zone's historical baseline**, not a fixed global threshold.  
+That's the difference between a generic product and one that's actually fair.
 
 ---
 
-## 🔄 Application Workflow — Persona-Based Scenario
+## 💡 What Is GigShield?
 
-### Scenario: Ravi's First Heavy Monsoon Day Under GigShield
+A **₹25/week parametric income insurance** for Swiggy / Zomato delivery partners that:
+
+- Monitors disruptions in real time across **hyper-local 2–5 km micro-zones**
+- **Auto-triggers payouts** when conditions deviate beyond the zone's tolerance — no claims, ever
+- Pays via **UPI in under 60 seconds**
+- Adjusts weekly pricing dynamically using **AI risk profiling per rider + zone**
+
+> ⚠️ Income loss only. Zero coverage for health, accidents, vehicles, or life.
+
+---
+
+## 🧠 The Geo-Adaptive Logic (Our Key Differentiator)
 
 ```
-WEEK 1 — MONDAY MORNING
+Trigger Threshold = Historical Zone Average  +  (k × Zone Std. Deviation)
 
-  Ravi opens WhatsApp
-       ↓
-  GigShield Bot: "Namaste Ravi! Protect your week's income for just ₹27."
-       ↓
-  Ravi enters: Zone (Koramangala) · Platform (Swiggy) · Daily avg (₹800)
-       ↓
-  [AI Risk Profiler runs]
-       Zone flood-risk score: HIGH (monsoon season)
-       Historical disruption rate: 2.3 days/month
-       Seasonal adjustment: +15% premium modifier
-       ↓
-  Weekly Premium Generated → ₹27 for this week
-       ↓
-  Ravi pays via UPI → Policy ACTIVE for Mon–Sun
+Kerala  → Heavy rain is normal → Threshold is HIGH → Only extreme flooding triggers
+Jaipur  → Rain is rare        → Threshold is LOW  → Even moderate rain triggers
+Chennai → Heat is normal      → Threshold is HIGH → Only dangerous heat index triggers
+Shimla  → Cold is normal      → Threshold is LOW  → Platform outage triggers faster
+```
 
-──────────────────────────────────────────────────────
+**The AI learns each zone's "normal" — and triggers only when reality breaks it.**  
+This means fair premiums, honest payouts, and zero over-claiming.
 
-WEDNESDAY 3:00 PM — DISRUPTION EVENT
+---
 
-  OpenWeatherMap API: Rainfall = 48mm/hr in Koramangala zone
-  CPCB AQI API: AQI = 342 (Very Unhealthy)
-       ↓
-  [GigShield Trigger Engine activates]
-       L3 disruption classified: Heavy Rain + Poor AQI
-       Confidence score: 94%
-       ↓
-  [AI Validation Engine cross-checks]
-       Ravi's GPS: In active disruption zone ✅
-       Swiggy order volume in zone: -68% drop ✅
-       No GPS spoofing anomaly detected ✅
-       Cooldown check: No prior claim today ✅
-       ↓
-  [Payout Calculated]
-       Lost hours estimated: 4 hrs (peak period blocked)
-       Hourly rate: ₹800 ÷ 8 hrs = ₹100/hr
-       Payout = 4 hrs × ₹100 × 75% (L3 severity) = ₹300
-       ↓
-  UPI Transfer → Ravi's account → ₹300 in < 60 seconds
-  WhatsApp: "GigShield paid ₹300 for today's rain disruption. Stay safe 🛡️"
+## 👤 Persona
+
+**Ravi, 28 | Swiggy Partner | Bengaluru | Earns ₹800/day**
+
+- Lost 6 days of income last monsoon with zero compensation
+- Rides a two-wheeler; affected by rain, heat, AQI spikes
+- WhatsApp user daily; will not download a new app
+- Needs a system that's transparent, instant, and requires zero effort
+
+---
+
+## 🔄 How It Works — Ravi's Story
+
+```
+Monday      → WhatsApp onboarding (2 mins) → AI profiles Ravi's zone → ₹27/week generated → UPI pay → Policy active
+
+Wednesday   → Rainfall in Koramangala zone spikes beyond historical baseline
+            → AQI crosses zone tolerance level
+            → GigShield classifies: L3 Disruption
+
+AI Validates → Ravi's GPS is in zone ✅  |  Order volume dropped 68% ✅  |  No GPS spoof ✅
+
+Payout      → 4 lost hrs × ₹100/hr × 75% severity = ₹300 via UPI < 60 seconds
+            → WhatsApp: "₹300 credited. Stay safe today 🛡️"
 ```
 
 ---
 
-## 📡 Parametric Trigger System
+## 📡 What We Cover — Beyond Just Weather
 
-Disruptions are classified across **5 levels (L0–L4)** with automatic payout scaling:
+Most teams stop at weather. We cover every measurable disruption that kills income:
 
-| Level | Trigger Condition | Payout | Example |
-|---|---|---|---|
-| **L0** | Normal conditions | 0% | Clear skies, normal traffic |
-| **L1** | Rain >10mm/hr · AQI 201–300 | 25% | Light monsoon shower |
-| **L2** | Rain >35mm/hr · AQI 301–400 | 50% | Heavy rain, reduced visibility |
-| **L3** | Flood alert · AQI >400 · Curfew | 75% | Waterlogging, zone shutdown |
-| **L4** | Declared disaster · Complete halt | 100% (capped ₹600/day) | Cyclone, state emergency |
+| Disruption | Trigger Source |
+|---|---|
+| Rain / flood exceeding zone baseline | Weather API |
+| Heat index beyond zone tolerance | Weather + humidity API |
+| AQI spike above zone's safe threshold | CPCB / OpenAQ API |
+| Platform app downtime (Swiggy/Zomato) | Platform signal (mock) |
+| Sudden order volume collapse in zone | Demand anomaly detection |
+| Curfew / local strike / zone closure | Government alert feed |
+| Traffic lockdown blocking zone access | Maps API congestion index |
 
-**Live Trigger Data Sources:**
+---
 
-| Source | API | Data Used |
+## 💰 Weekly Premium — How Pricing Works
+
+```
+Base Premium           ₹20 / week  (all riders)
++ Zone Risk Score      ₹0–₹10      (based on historical disruption frequency)
++ Seasonal Modifier    ₹0–₹5       (monsoon / summer / winter adjustment)
+− Trust Discount       ₹0–₹5       (consistent, honest riders pay less)
+─────────────────────────────────────────────
+Final Weekly Premium   ₹15–₹35     No annual lock-in. Renews every Monday.
+Max Daily Payout       ₹600        Capped regardless of disruption level.
+```
+
+---
+
+## ⚙️ Disruption Levels & Payouts
+
+| Level | What It Means | Payout |
 |---|---|---|
-| Weather | OpenWeatherMap (free tier) | Rainfall mm/hr, wind speed, humidity |
-| Air Quality | OpenAQ / CPCB | Real-time AQI readings per zone |
-| Traffic | HERE Maps / Google Maps | Congestion index per micro-zone |
-| Platform Signal | Simulated mock | Order volume drop percentage |
-| Government Alerts | RSS / Gov feed | Curfews, strikes, zone closures |
+| L0 | Normal — within zone baseline | 0% |
+| L1 | Mild deviation — minor income impact | 25% |
+| L2 | Moderate deviation — clear income loss | 50% |
+| L3 | High deviation — unsafe / halted work | 75% |
+| L4 | Shutdown — declared or complete halt | 100% (capped ₹600/day) |
 
 ---
 
-## 💰 Weekly Premium Model
+## 🏗️ Architecture (High Level)
 
 ```
-┌───────────────────────────────────────────────┐
-│         GIGSHIELD PREMIUM CALCULATOR          │
-├───────────────────────────────────────────────┤
-│  Base Premium              =  ₹20/week        │
-│  + Zone Risk Modifier      =  ₹0 to ₹10       │
-│    (flood-prone = +₹10 · low-risk = +₹0)      │
-│  + Seasonal Modifier       =  ₹0 to ₹5        │
-│    (monsoon months = +₹5)                     │
-│  − Behavior Discount       =  −₹2 to −₹5      │
-│    (high trust score = more savings)          │
-├───────────────────────────────────────────────┤
-│  Final Weekly Premium      =  ₹15 – ₹35/week  │
-│  Maximum Weekly Payout     =  up to ₹600/day  │
-└───────────────────────────────────────────────┘
-```
-
-- No annual lock-in — renews every Monday
-- Cancel anytime; unused days prorated
-- Average ₹25/week = roughly 3% of weekly income for most riders
-
----
-
-## 🧠 AI/ML Integration Plan
-
-### 1. Dynamic Premium Calculation
-- **Model:** Gradient Boosted Regressor (XGBoost)
-- **Features:** Zone disruption frequency, seasonal risk index, rider consistency score, historical claim rate, AQI baseline per zone
-- **Output:** Personalized ₹/week premium recalculated every Monday
-
-### 2. Geo-Adaptive Risk Profiling
-- K-means clustering of delivery zones into micro-zones (2–5 km radius)
-- Historical weather deviation scoring stored per zone
-- Seasonal adjustment matrices for monsoon, summer, winter cycles
-- Zone risk score updates weekly from incoming API data
-
-### 3. Fraud Detection Engine
-
-| Check | Method |
-|---|---|
-| GPS spoofing | Trajectory velocity anomaly detection |
-| Zone presence | Cross-validate GPS vs disruption zone boundary |
-| Activity validation | Order volume drop from platform signal |
-| Behavioral baseline | Inactivity unusual for this rider at this hour? |
-| Duplicate accounts | Device fingerprinting + phone deduplication |
-| Claim frequency | Rate-limiting per user per disruption event |
-
-### 4. Payout Prediction (Insurer Dashboard)
-- Forecasts high-risk disruption days for the coming week
-- Pre-positions payout liquidity
-- Alerts insurer when >X% of zone riders are likely to claim simultaneously
-
----
-
-## 🏗️ System Architecture
-
-```
-                    ┌──────────────────────────────┐
-                    │      GIGSHIELD PLATFORM      │
-                    └──────────────────────────────┘
-
-┌───────────────┐   ┌──────────────────────┐   ┌──────────────────┐
-│  INPUT LAYER  │   │  INTELLIGENCE LAYER  │   │  OUTPUT LAYER    │
-├───────────────┤   ├──────────────────────┤   ├──────────────────┤
-│ WhatsApp API  │──▶│ Risk Profiling ML    │──▶│ UPI Payout       │
-│ Weather APIs  │   │ Dynamic Pricing      │   │ WhatsApp Alerts  │
-│ AQI APIs      │──▶│ Trigger Classifier   │──▶│ Worker Dashboard │
-│ Traffic APIs  │   │ Fraud Detection AI   │   │ Insurer Console  │
-│ Platform API  │──▶│ Geo-Zone Engine      │──▶│ Audit Logs       │
-│ GPS Feed      │   │ Payout Calculator    │   │ Analytics Report │
-└───────────────┘   └──────────────────────┘   └──────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                        GIGSHIELD ENGINE                         │
+├──────────────────┬──────────────────────┬───────────────────────┤
+│   DATA INPUTS    │   INTELLIGENCE CORE  │   OUTPUTS             │
+├──────────────────┼──────────────────────┼───────────────────────┤
+│ OpenWeatherMap   │ Geo Baseline Engine  │ UPI Payout (Razorpay) │
+│ OpenAQ / CPCB    │ Disruption Classifier│ WhatsApp Alerts       │
+│ Maps / Traffic   │ XGBoost Pricing ML   │ Rider Dashboard       │
+│ Platform Signal  │ Fraud Detection AI   │ Insurer Console       │
+│ GPS Feed         │ Payout Calculator    │ Weekly Analytics      │
+│ Gov Alert Feed   │ Trust Score Engine   │ Audit Log             │
+└──────────────────┴──────────────────────┴───────────────────────┘
+         ↑ All triggers are zone-relative, not globally fixed ↑
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology | Rationale |
+| Layer | Choice |
+|---|---|
+| Rider UX | WhatsApp Business API (zero install) |
+| Insurer Dashboard | React.js |
+| Backend | FastAPI (Python) |
+| AI / ML | XGBoost + scikit-learn |
+| Database | PostgreSQL + Redis |
+| Payments | Razorpay Test Mode (UPI mock) |
+| Geo / Maps | Google Maps API + Leaflet.js |
+| Weather | OpenWeatherMap (free tier) |
+| AQI | OpenAQ / CPCB (free) |
+
+**Why Web + WhatsApp?** Riders need zero friction (WhatsApp). Insurers need analytics depth (Web). No rider has to install anything.
+
+---
+
+## 🛡️ Fraud Detection — Key Checks
+
+- GPS location during claim vs actual disruption zone boundary
+- Rider activity signal vs claimed inactivity
+- Trajectory analysis to detect GPS spoofing
+- Order volume in zone to validate demand collapse claims
+- Device fingerprinting + phone deduplication (no multi-accounts)
+- Claim frequency rate-limiting per disruption window
+
+---
+
+## 🎮 Trust Score — Riders Who Play Fair, Win More
+
+Honest, consistent riders build a **Trust Score (0–100)** that reduces premiums and raises payout caps:
+
+| Tier | Score | Benefit |
 |---|---|---|
-| Frontend | React.js (Web) | Insurer dashboard + rider portal |
-| Bot / UX | WhatsApp Business API | Primary rider interaction — zero install |
-| Backend | FastAPI (Python) | High-throughput real-time trigger processing |
-| AI / ML | scikit-learn · XGBoost | Pricing + fraud + prediction models |
-| Database | PostgreSQL + Redis | Persistent data + real-time zone cache |
-| Weather | OpenWeatherMap API | Free tier, reliable, India-wide coverage |
-| AQI | OpenAQ / CPCB API | Open-source, India-specific monitoring nodes |
-| Payments | Razorpay Test Mode | UPI simulation for Phase 1–2 demo |
-| Geo | Google Maps / Leaflet.js | Zone boundary mapping + GPS validation |
-| Deployment | Render / Railway | Lightweight Phase 1–2 hosting |
-
-**Platform Choice: Web (React) + WhatsApp Bot**
-
-Riders need zero-friction access via WhatsApp. Insurers need analytics richness via a web dashboard. This dual approach serves both audiences without forcing riders to install anything.
+| 🥉 Bronze | 0–40 | Standard terms |
+| 🥈 Silver | 41–70 | −₹3/week · +10% payout cap |
+| 🥇 Gold | 71–100 | −₹5/week · +25% payout cap |
 
 ---
 
-## 🎮 Gamification & Trust Score
+## ✅ Phase 1 Checklist
 
-Every rider builds a **GigShield Trust Score (0–100):**
-
-| Action | Score Impact |
-|---|---|
-| Consistent active working pattern | +5 / week |
-| No fraudulent claim detected | +3 / week |
-| Long-term subscriber (4+ weeks) | +2 / week |
-| GPS anomaly detected during claim | −20 |
-| Duplicate claim attempt | −30 |
-
-**Trust Tier Benefits:**
-
-| Tier | Score Range | Benefit |
-|---|---|---|
-| 🥉 Bronze | 0–40 | Standard premium · Standard payout cap |
-| 🥈 Silver | 41–70 | −₹3/week discount · +10% payout cap |
-| 🥇 Gold | 71–100 | −₹5/week discount · +25% payout cap |
-
----
-
-## 🗺️ Coverage Scope
-
-| ✅ Covered (Income Loss Only) | ❌ Explicitly Excluded |
-|---|---|
-| Heavy rainfall halting deliveries | Vehicle repairs |
-| Extreme heat / dangerous heat index | Medical bills |
-| High AQI / severe pollution spike | Accident coverage |
-| Flash floods and waterlogging | Health insurance |
-| Local curfew / public strike | Life insurance |
-| Platform app downtime (simulated) | Property damage |
-| Sudden order demand collapse in zone | Personal liability |
-
----
-
-## 📅 Phase 1 Deliverables Checklist
-
-- [x] Idea document — this README
-- [x] Persona-based scenario with workflow
-- [x] Weekly premium model fully defined
-- [x] Parametric triggers with L0–L4 levels
-- [x] AI/ML integration plan detailed
-- [x] Fraud detection strategy outlined
-- [x] Tech stack and platform choice justified
-- [ ] GitHub Repository link *(to be added)*
-- [ ] 2-minute strategy video *(to be uploaded)*
-- [ ] Detailed 160-point idea document on OneDrive *(to be uploaded)*
-
----
-
-## 📎 Resources
-
-| Resource | Link |
-|---|---|
-| 📄 Full Idea Blueprint (160-point detailed document) | *(OneDrive link — to be uploaded)* |
-| 🎥 2-Minute Strategy Video | *(YouTube / Drive link — to be uploaded)* |
-| 🗂️ GitHub Repository | *(This repository)* |
+- [x] Core idea + unique geo-adaptive positioning defined
+- [x] Persona-based scenario with live workflow
+- [x] Weekly premium model with dynamic pricing logic
+- [x] Parametric trigger system (L0–L4) with zone-relative thresholds
+- [x] AI/ML plan — pricing, fraud detection, prediction
+- [x] Full coverage scope beyond weather
+- [x] Tech stack + platform justified
+- [] GitHub repository link *https://github.com/CholaGanesh05/Guidewire_Devtrails_200-Syndicate*
+- [ ] 2-minute strategy video *(upload before submission)*
+- [ ] Detailed idea document on OneDrive *(upload before submission)*
 
 ---
 
 ## 👥 Team
 
-| Field | Detail |
+| | |
 |---|---|
-| Hackathon | Guidewire DEVTrails 2026 — University Hackathon |
-| Partner | EY (Ernst and Young) |
-| Phase | 1 — Seed: Ideation and Foundation |
-| Submission Deadline | March 20, 2026 |
+| Hackathon | Guidewire DEVTrails 2026 · University Hackathon |
+| Partner | EY (Ernst & Young) |
+| Phase | 1 — Seed: Ideation & Foundation |
+| Deadline | March 20, 2026 |
 | Participant | Chola Chetan Chukkala |
 
 ---
 
 <div align="center">
 
-*Built for the 8 million delivery partners who power India's digital economy*
-*— and deserve a safety net when the world gets in their way.*
+*Not just insurance. An income protection engine that actually understands where you live and how you work.*
 
-**GigShield** · Guidewire DEVTrails 2026 · Seed → Scale → Soar 🚀
+**GigShield · Seed → Scale → Soar 🚀**
 
 </div>
