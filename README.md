@@ -18,9 +18,10 @@
 
 | Resource | Link |
 |---|---|
-| 📄 Full Idea Blueprint — 160-point Detail Doc | [View Document](https://amritauniv-my.sharepoint.com/:w:/g/personal/am_sc_u4cse23115_am_students_amrita_edu/IQCVzuaYIhchQLL6ajj7_87hAfzg6-X4A--Vp4zjhCjI7nc?e=SzPjhA) |
+| 📄 Full Idea Blueprint| [View Document](https://amritauniv-my.sharepoint.com/:w:/g/personal/am_sc_u4cse23115_am_students_amrita_edu/IQCVzuaYIhchQLL6ajj7_87hAfzg6-X4A--Vp4zjhCjI7nc?e=SzPjhA) |
 | 🎥 2-Minute Strategy Video | *(YouTube / Drive — to be added)* |
 | 🗂️ GitHub Repository | [Open Repo](https://github.com/CholaGanesh05/Guidewire_Devtrails_200-Syndicate) (`main` branch) |
+
 ---
 
 ## ⚡ The One Idea That Separates Us
@@ -275,8 +276,8 @@ One engine. Every gig worker in India.
 |---|---|
 | Hackathon | Guidewire DEVTrails 2026 · University Hackathon · In partnership with EY |
 | Phase | 1 — Seed: Ideation & Foundation · Deadline: March 20, 2026 |
-| Team | 200 Syndicate |
-| Participants | Chola Chetan Chukkala, David Shibu, Evan Binu Chirayath, Jacob Isaac |
+| Team Name | 200 Syndicate |
+| Team Members | Chola Chetan Chukkala, David Shibu, Evan Binu Chirayath, Jacob Isaac |
 | Repository | [CholaGanesh05/Guidewire_Devtrails_200-Syndicate](https://github.com/CholaGanesh05/Guidewire_Devtrails_200-Syndicate) |
 
 ---
