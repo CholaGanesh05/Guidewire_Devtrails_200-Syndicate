@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}ArthSahay{% endblock %} · AI Parametric Income Insurance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="{{ url_for('home') }}" class="nav-brand">
+    <span class="shield-icon">🛡️</span>
+    <span>ArthSahay</span>
+  </a>
+  <div class="nav-links">
+    <a href="{{ url_for('home') }}" class="nav-link {% if request.endpoint == 'home' %}active{% endif %}">Home</a>
+    <a href="{{ url_for('how_it_works') }}" class="nav-link {% if request.endpoint == 'how_it_works' %}active{% endif %}">How It Works</a>
+    <a href="{{ url_for('coverage') }}" class="nav-link {% if request.endpoint == 'coverage' %}active{% endif %}">Coverage</a>
+    <a href="{{ url_for('technology') }}" class="nav-link {% if request.endpoint == 'technology' %}active{% endif %}">Technology</a>
+    <a href="{{ url_for('calculator') }}" class="nav-link {% if request.endpoint == 'calculator' %}active{% endif %}">Calculator</a>
+    <a href="{{ url_for('team') }}" class="nav-link {% if request.endpoint == 'team' %}active{% endif %}">Team</a>
+    <a href="{{ url_for('admin') }}" class="nav-link {% if request.endpoint == 'admin' %}active{% endif %}" style="color:#f5a623">Insurer ↗</a>
+    {% if session.get('phone') %}
+      <a href="{{ url_for('dashboard') }}" class="nav-btn btn-primary">Dashboard</a>
+      <a href="{{ url_for('logout') }}" class="nav-btn btn-ghost">Logout</a>
+    {% else %}
+      <a href="{{ url_for('onboard') }}" class="nav-btn btn-primary">Get Protected</a>
+    {% endif %}
+  </div>
+</nav>
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">🛡️ ArthSahay</div>
+    <div class="footer-tagline">Guidewire DEVTrails 2026 · Team 200 Syndicate</div>
+    <div class="footer-links">
+      <a href="https://github.com/CholaGanesh05/Guidewire_Devtrails_200-Syndicate" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Guidewire DEVTrails 2026 · Phase 1 Seed</div>
+  <h1 class="hero-title">
+    Income Protection<br/>
+    <span class="gradient-text">That Thinks Like You Work</span>
+  </h1>
+  <p class="hero-sub">
+    AI-powered parametric insurance for Swiggy & Zomato delivery partners.<br/>
+    Zone-adaptive. Fraud-resistant. UPI payout in under 24 hours.
+  </p>
+  <div class="hero-cta">
+    {% if rider %}
+      <a href="{{ url_for('dashboard') }}" class="btn-primary btn-lg">Go to Dashboard →</a>
+    {% else %}
+      <a href="{{ url_for('onboard') }}" class="btn-primary btn-lg">Get Protected in 2 Minutes →</a>
+    {% endif %}
+    <a href="{{ url_for('how_it_works') }}" class="btn-ghost btn-lg">See How It Works</a>
+  </div>
+  <div class="hero-pills">
+    <span class="pill">₹15–40/week premium</span>
+    <span class="pill">Zero paperwork</span>
+    <span class="pill">WhatsApp-first</span>
+    <span class="pill">Hyper-local zones</span>
+  </div>
+</section>
+
+<!-- LIVE ZONE MONITOR -->
+<section class="section">
+  <div class="section-header">
+    <h2>Live Zone Monitor</h2>
+    <p>Real-time disruption conditions across delivery zones</p>
+  </div>
+  <div class="zone-selector-row">
+    <label for="zoneSelect">Select zone:</label>
+    <select id="zoneSelect" class="select-input">
+      {% for z in zones %}
+        <option value="{{ z }}">{{ z }}</option>
+      {% endfor %}
+    </select>
+    <button onclick="refreshConditions()" class="btn-primary btn-sm">Refresh</button>
+    <span class="live-dot">● LIVE</span>
+  </div>
+  <div id="conditionsPanel" class="conditions-grid">
+    <div class="condition-card" id="cRain">
+      <div class="cond-icon">🌧️</div>
+      <div class="cond-label">Rainfall</div>
+      <div class="cond-value" id="rainVal">—</div>
+      <div class="cond-baseline" id="rainBase">Baseline: —</div>
+      <div class="cond-deviation" id="rainDev">—</div>
+    </div>
+    <div class="condition-card" id="cAqi">
+      <div class="cond-icon">💨</div>
+      <div class="cond-label">AQI</div>
+      <div class="cond-value" id="aqiVal">—</div>
+      <div class="cond-baseline" id="aqiBase">Baseline: —</div>
+      <div class="cond-deviation" id="aqiDev">—</div>
+    </div>
+    <div class="condition-card" id="cTemp">
+      <div class="cond-icon">🌡️</div>
+      <div class="cond-label">Temperature</div>
+      <div class="cond-value" id="tempVal">—</div>
+      <div class="cond-baseline" id="tempBase">Baseline: —</div>
+      <div class="cond-deviation" id="tempDev">—</div>
+    </div>
+    <div class="condition-card" id="cTraffic">
+      <div class="cond-icon">🚧</div>
+      <div class="cond-label">Traffic Index</div>
+      <div class="cond-value" id="trafficVal">—</div>
+      <div class="cond-baseline" id="trafficBase">Baseline: —</div>
+      <div class="cond-deviation" id="trafficDev">—</div>
+    </div>
+  </div>
+
+  <!-- Disruption Level -->
+  <div id="fusedLevel" class="fused-level-banner" style="display:none">
+    <div class="fused-label-text" id="fusedLabelText"></div>
+    <div class="fused-desc" id="fusedDesc"></div>
+    <div class="fused-demand" id="fusedDemand"></div>
+  </div>
+</section>
+
+<!-- THE KEY DIFFERENTIATOR -->
+<section class="section alt-bg">
+  <div class="section-header">
+    <h2>The One Idea That Separates Us</h2>
+    <p>Other insurers trigger on static thresholds. We trigger on <strong>zone-relative deviation</strong>.</p>
+  </div>
+  <div class="formula-box">
+    <code>Zone Trigger Threshold = μ(zone, last 90 days) + k × σ(zone)</code>
+  </div>
+  <div class="zone-examples-grid">
+    <div class="zone-card">
+      <div class="zone-city">Bengaluru</div>
+      <div class="zone-cond">Rain is expected here</div>
+      <div class="zone-result">→ Baseline-adjusted payout (lower)</div>
+    </div>
+    <div class="zone-card">
+      <div class="zone-city">Jaipur</div>
+      <div class="zone-cond">Rain is rare here</div>
+      <div class="zone-result">→ Higher severity payout triggers</div>
+    </div>
+    <div class="zone-card">
+      <div class="zone-city">Chennai</div>
+      <div class="zone-cond">42°C heat is normal here</div>
+      <div class="zone-result">→ Proportional L1/L2 payout</div>
+    </div>
+    <div class="zone-card">
+      <div class="zone-city">Shimla</div>
+      <div class="zone-cond">32°C heat is extreme here</div>
+      <div class="zone-result">→ High L3/L4 payout triggers</div>
+    </div>
+  </div>
+</section>
+
+<!-- DISRUPTION LEVELS -->
+<section class="section">
+  <div class="section-header">
+    <h2>Disruption Levels</h2>
+    <p>Payout scales proportionally to deviation from local baseline</p>
+  </div>
+  <div class="levels-strip">
+    <div class="level-item" style="--lc:#27ae60"><span class="lv-badge">L0</span><span>Normal</span><span>0%</span></div>
+    <div class="level-item" style="--lc:#f39c12"><span class="lv-badge">L1</span><span>Mild</span><span>~25%</span></div>
+    <div class="level-item" style="--lc:#e67e22"><span class="lv-badge">L2</span><span>Moderate</span><span>~50%</span></div>
+    <div class="level-item" style="--lc:#e74c3c"><span class="lv-badge">L3</span><span>High</span><span>~75%</span></div>
+    <div class="level-item" style="--lc:#8e44ad"><span class="lv-badge">L4</span><span>Shutdown</span><span>100%</span></div>
+  </div>
+</section>
+
+<!-- MEET RAVI -->
+<section class="section alt-bg">
+  <div class="persona-card">
+    <div class="persona-avatar">R</div>
+    <div class="persona-info">
+      <div class="persona-name">Ravi, 28 · Swiggy Partner · Bengaluru</div>
+      <div class="persona-story">
+        Lost 6 days of income last monsoon. Zero compensation. Had no choice but to ride in dangerous conditions.
+        Uses WhatsApp daily, earns ₹800/day, lives week to week.
+        <strong>ArthSahay pays ₹300 directly via UPI when Koramangala hits L3 disruption.</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  refreshConditions();
+  setInterval(refreshConditions, 30000); // auto-refresh every 30s
+
+  async function refreshConditions() {
+    const zone = document.getElementById('zoneSelect').value;
+    const res = await fetch('/api/conditions/' + encodeURIComponent(zone));
+    const d = await res.json();
+
+    function setCard(id, value, base, dev, level) {
+      const colors = ['#27ae60','#f39c12','#e67e22','#e74c3c','#8e44ad'];
+      document.getElementById(id+'Val').textContent = value;
+      document.getElementById(id+'Base').textContent = 'Baseline: ' + base;
+      const devEl = document.getElementById(id+'Dev');
+      devEl.textContent = dev > 0 ? `+${dev.toFixed(0)}% above normal` : `Within normal range`;
+      devEl.style.color = colors[level] || '#aaa';
+    }
+
+    setCard('rain',    d.rain_mm_hr + ' mm/hr',  d.baseline.rain_mu + ' mm/hr', d.rain_deviation_pct, d.rain_level);
+    setCard('aqi',     d.aqi,                    d.baseline.aqi_mu,             d.aqi_deviation_pct,  d.aqi_level);
+    setCard('temp',    d.temp_c + '°C',           d.baseline.temp_mu + '°C',    d.temp_deviation_pct, d.temp_level);
+    setCard('traffic', d.traffic_pct + '%',       d.baseline.traffic_mu + '%',  d.traffic_deviation_pct, d.traffic_level);
+
+    const colors = ['#27ae60','#f39c12','#e67e22','#e74c3c','#8e44ad'];
+    const banner = document.getElementById('fusedLevel');
+    banner.style.display = 'flex';
+    banner.style.borderColor = colors[d.fused_level];
+    document.getElementById('fusedLabelText').textContent = d.fused_label;
+    document.getElementById('fusedLabelText').style.color = colors[d.fused_level];
+    document.getElementById('fusedDesc').textContent = 'Multi-signal fusion result';
+    document.getElementById('fusedDemand').textContent = `Order demand drop: −${d.demand_drop_pct}%`;
+  }
+</script>
+{% endblock %}

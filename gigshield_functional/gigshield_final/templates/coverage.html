@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Coverage{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="section-header">
+    <h2>What ArthSahay Covers</h2>
+    <p>Income loss only — triggered by zone-relative disruption signals</p>
+  </div>
+
+  <div class="coverage-grid">
+    <div class="cov-card"><div class="cov-icon">🌧️</div><div class="cov-title">Rain / Flood</div><div class="cov-src">OpenWeatherMap API</div><div class="cov-desc">Beyond zone baseline mm/hr threshold</div></div>
+    <div class="cov-card"><div class="cov-icon">🌡️</div><div class="cov-title">Heat Index</div><div class="cov-src">Weather + Humidity Fusion</div><div class="cov-desc">Beyond zone historical tolerance</div></div>
+    <div class="cov-card"><div class="cov-icon">💨</div><div class="cov-title">AQI Spike</div><div class="cov-src">CPCB / OpenAQ API</div><div class="cov-desc">Above zone safe threshold</div></div>
+    <div class="cov-card"><div class="cov-icon">📱</div><div class="cov-title">Platform Downtime</div><div class="cov-src">Platform Signal Mock</div><div class="cov-desc">Swiggy / Zomato app unavailability</div></div>
+    <div class="cov-card"><div class="cov-icon">📉</div><div class="cov-title">Order Collapse</div><div class="cov-src">Demand Anomaly Model</div><div class="cov-desc">Sudden zone-wide demand drop</div></div>
+    <div class="cov-card"><div class="cov-icon">🚫</div><div class="cov-title">Curfew / Strike</div><div class="cov-src">Government RSS Feed</div><div class="cov-desc">Zone closure alerts</div></div>
+    <div class="cov-card"><div class="cov-icon">🚧</div><div class="cov-title">Traffic Lockdown</div><div class="cov-src">Maps API Congestion</div><div class="cov-desc">Blocking zone access completely</div></div>
+  </div>
+</section>
+
+<section class="section alt-bg">
+  <div class="section-header"><h2>Disruption Levels & Payouts</h2></div>
+  <div class="levels-detail">
+    {% for lv, cfg in disruption_config.items() %}
+    <div class="lv-detail-card" style="border-left: 4px solid {{ cfg.color }}">
+      <div class="lvd-badge" style="color:{{ cfg.color }}">L{{ lv }}</div>
+      <div class="lvd-label">{{ cfg.label }}</div>
+      <div class="lvd-pct">{{ (cfg.pct * 100)|int }}% of estimated lost income</div>
+      <div class="lvd-desc">{{ cfg.desc }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header"><h2>Trust Tiers</h2></div>
+  <div class="trust-cards">
+    <div class="trust-card"><div class="tc-icon">🥉</div><div class="tc-name">Bronze</div><div class="tc-range">Score 0–40</div><div class="tc-benefit">Standard premium and payout cap</div></div>
+    <div class="trust-card highlight-card"><div class="tc-icon">🥈</div><div class="tc-name">Silver</div><div class="tc-range">Score 41–70</div><div class="tc-benefit">Discounted premium · +10% payout cap</div></div>
+    <div class="trust-card highlight-card gold"><div class="tc-icon">🥇</div><div class="tc-name">Gold</div><div class="tc-range">Score 71–100</div><div class="tc-benefit">Highest discount · +25% payout cap</div></div>
+  </div>
+</section>
+
+<section class="section alt-bg">
+  <div class="section-header"><h2>Fraud Prevention</h2></div>
+  <div class="fraud-table">
+    <div class="ft-row header"><span>Check</span><span>Method</span></div>
+    <div class="ft-row"><span>🛰️ GPS Spoofing</span><span>Trajectory velocity anomaly analysis</span></div>
+    <div class="ft-row"><span>📍 Zone Presence</span><span>GPS vs disruption boundary cross-check</span></div>
+    <div class="ft-row"><span>📋 Activity Validation</span><span>Real order volume drop required</span></div>
+    <div class="ft-row"><span>👤 Duplicate Accounts</span><span>Device fingerprinting + phone dedup</span></div>
+    <div class="ft-row"><span>🔁 Claim Rate Abuse</span><span>One payout window per disruption per rider</span></div>
+  </div>
+</section>
+{% endblock %}

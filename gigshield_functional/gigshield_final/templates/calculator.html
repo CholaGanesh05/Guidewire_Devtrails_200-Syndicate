@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}Premium Calculator{% endblock %}
+
+{% block content %}
+<section class="section" style="max-width:900px">
+  <div class="section-header">
+    <h2>🧮 Dynamic Premium Calculator</h2>
+    <p>See exactly what you'd pay and receive — zone-adaptive, AI-calculated</p>
+  </div>
+
+  <div class="calc-wrap">
+    <!-- Inputs -->
+    <div class="calc-inputs">
+      <div class="form-group">
+        <label>Your Delivery Zone</label>
+        <select id="cZone" class="form-input" onchange="calculate()">
+          {% for z in zones %}
+            <option value="{{ z }}">{{ z }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Average Daily Earnings (₹)</label>
+        <input type="range" id="cEarnings" min="200" max="2000" value="800" step="50" oninput="updateEarnings(); calculate()" class="slider"/>
+        <div class="slider-val">₹<span id="earningsDisplay">800</span>/day</div>
+      </div>
+      <div class="form-group">
+        <label>Trust Score</label>
+        <input type="range" id="cTrust" min="0" max="100" value="50" step="1" oninput="updateTrust(); calculate()" class="slider"/>
+        <div class="slider-val"><span id="trustDisplay">50</span>/100 · <span id="trustTierDisplay">Silver 🥈</span></div>
+      </div>
+      <div class="form-group">
+        <label>Season</label>
+        <div class="platform-btns">
+          <label class="platform-radio"><input type="radio" name="season" value="normal" checked onchange="calculate()"/><span>Normal</span></label>
+          <label class="platform-radio"><input type="radio" name="season" value="monsoon" onchange="calculate()"/><span>Monsoon 🌧️</span></label>
+          <label class="platform-radio"><input type="radio" name="season" value="summer" onchange="calculate()"/><span>Summer 🌡️</span></label>
+          <label class="platform-radio"><input type="radio" name="season" value="winter" onchange="calculate()"/><span>Winter ❄️</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Panel -->
+    <div class="calc-results" id="calcResults">
+      <div class="cr-main">
+        <div class="cr-label">Weekly Premium</div>
+        <div class="cr-big" id="crPremium">₹—</div>
+        <div class="cr-sub" id="crCoverage"></div>
+      </div>
+      <div class="cr-breakdown">
+        <div class="cb-row"><span>Daily earnings</span><span id="cbDaily">—</span></div>
+        <div class="cb-row"><span>Weekly earnings (6 days)</span><span id="cbWeekly">—</span></div>
+        <div class="cb-row"><span>Hourly rate</span><span id="cbHourly">—</span></div>
+        <div class="cb-row sep"></div>
+        <div class="cb-row"><span>Max daily payout (L4)</span><span>₹600</span></div>
+        <div class="cb-row"><span>Weekly ROI at L4</span><span id="cbRoi" class="green-text">—</span></div>
+        <div class="cb-row sep"></div>
+        <div class="cb-row"><span>Your trust tier</span><span id="cbTier">—</span></div>
+        <div class="cb-row"><span>Payout bonus</span><span id="cbBonus" class="green-text">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payout Scenarios -->
+  <div class="section-header" style="margin-top:3rem">
+    <h2>Payout Scenarios</h2>
+    <p>What you'd receive at each disruption level</p>
+  </div>
+  <div class="scenario-grid" id="scenarioGrid"></div>
+
+  <!-- Zone Comparison -->
+  <div class="section-header" style="margin-top:3rem">
+    <h2>Zone Risk Comparison</h2>
+    <p>How your zone compares to all others</p>
+  </div>
+  <div id="zoneCompareTable">
+    <canvas id="zoneRiskChart" height="80"></canvas>
+  </div>
+
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+let zoneChart = null;
+calculate();
+loadZoneChart();
+
+function updateEarnings() {
+  document.getElementById('earningsDisplay').textContent = document.getElementById('cEarnings').value;
+}
+function updateTrust() {
+  const t = parseInt(document.getElementById('cTrust').value);
+  document.getElementById('trustDisplay').textContent = t;
+  let tier = t >= 71 ? 'Gold 🥇' : t >= 41 ? 'Silver 🥈' : 'Bronze 🥉';
+  document.getElementById('trustTierDisplay').textContent = tier;
+  document.getElementById('cbTier').textContent = tier;
+}
+
+async function calculate() {
+  const zone     = document.getElementById('cZone').value;
+  const earnings = document.getElementById('cEarnings').value;
+  const trust    = document.getElementById('cTrust').value;
+  const season   = document.querySelector('input[name="season"]:checked').value;
+
+  const res = await fetch(`/api/premium-preview?zone=${encodeURIComponent(zone)}&earnings=${earnings}&trust=${trust}&season=${season}`);
+  const d = await res.json();
+
+  document.getElementById('crPremium').textContent = `₹${d.premium}`;
+  document.getElementById('crCoverage').textContent = `${d.coverage_ratio}% of weekly earnings`;
+  document.getElementById('cbDaily').textContent   = `₹${earnings}`;
+  document.getElementById('cbWeekly').textContent  = `₹${d.weekly_earnings}`;
+  document.getElementById('cbHourly').textContent  = `₹${(earnings / 8).toFixed(0)}/hr`;
+  const roi = ((600 / d.premium) * 100).toFixed(0);
+  document.getElementById('cbRoi').textContent     = `${roi}× return`;
+  const tiers = { Bronze: '🥉 Standard', Silver: '🥈 +10% payout', Gold: '🥇 +25% payout' };
+  document.getElementById('cbTier').textContent    = tiers[d.trust_tier] || d.trust_tier;
+  const bonuses = { Bronze: '0%', Silver: '+10%', Gold: '+25%' };
+  document.getElementById('cbBonus').textContent   = bonuses[d.trust_tier] || '0%';
+  updateTrust();
+
+  // Payout scenarios
+  const hrRate = earnings / 8;
+  const pcts   = [0, 0.25, 0.50, 0.75, 1.0];
+  const hrs    = [0, 2, 3, 4, 6];
+  const colors = ['#27ae60','#f39c12','#e67e22','#e74c3c','#8e44ad'];
+  const labels = ['L0 – Normal','L1 – Mild','L2 – Moderate','L3 – High','L4 – Shutdown'];
+
+  document.getElementById('scenarioGrid').innerHTML = pcts.map((pct, i) => {
+    const payout = Math.min(Math.round(hrs[i] * hrRate * pct), 600);
+    const roi = i > 0 ? ((payout / d.premium) * 100).toFixed(0) : 0;
+    return `
+      <div class="sc-card" style="border-top-color:${colors[i]}">
+        <div class="sc-level" style="color:${colors[i]}">${labels[i]}</div>
+        <div class="sc-payout">₹${payout}</div>
+        <div class="sc-detail">${hrs[i]}h × ₹${hrRate.toFixed(0)} × ${(pct*100).toFixed(0)}%</div>
+        ${i > 0 ? `<div class="sc-roi">ROI: ${roi}×</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+async function loadZoneChart() {
+  const res = await fetch('/api/zone-compare');
+  const zones = await res.json();
+  const ctx = document.getElementById('zoneRiskChart').getContext('2d');
+  const colors = zones.map(z => ['#27ae60','#f39c12','#e67e22','#e74c3c','#8e44ad'][z.current_level]);
+  if (zoneChart) zoneChart.destroy();
+  zoneChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: zones.map(z => z.zone.split(',')[0]),
+      datasets: [{
+        label: 'Risk Score',
+        data: zones.map(z => z.risk_score),
+        backgroundColor: colors.map(c => c + '88'),
+        borderColor: colors,
+        borderWidth: 1, borderRadius: 6
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#7a8ba8' }, grid: { color: '#1e2d45' }, max: 100 },
+        y: { ticks: { color: '#e8edf5', font: { size: 11 } }, grid: { color: '#1e2d45' } }
+      }
+    }
+  });
+}
+</script>
+{% endblock %}

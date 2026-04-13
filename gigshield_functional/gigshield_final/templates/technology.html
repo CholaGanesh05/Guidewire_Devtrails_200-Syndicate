@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Technology{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="section-header">
+    <h2>The Intelligence Layer</h2>
+    <p>4 AI models working in concert for autonomous income protection</p>
+  </div>
+
+  <div class="ai-models-grid">
+    <div class="ai-card">
+      <div class="ai-badge">Core</div>
+      <div class="ai-name">Agentic Orchestrator</div>
+      <div class="ai-desc">Autonomous monitoring, multi-step validation & workflow orchestration. No human in the loop.</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-badge">Pricing</div>
+      <div class="ai-name">XGBoost / LightGBM</div>
+      <div class="ai-desc">Dynamic weekly premium prediction based on multi-factor risk scoring per zone.</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-badge">Income</div>
+      <div class="ai-name">Deep Learning (Regression)</div>
+      <div class="ai-desc">Real-time hourly income estimation from behavioural history and zone demand density.</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-badge">Fraud</div>
+      <div class="ai-name">Isolation Forest</div>
+      <div class="ai-desc">Unsupervised fraud, GPS spoofing & anomaly detection. Zero labelled fraud data needed.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt-bg">
+  <div class="section-header"><h2>Architecture</h2></div>
+  <div class="arch-grid">
+    <div class="arch-col">
+      <div class="arch-col-title">DATA INPUTS</div>
+      <div class="arch-item">🌤️ OpenWeatherMap</div>
+      <div class="arch-item">💨 OpenAQ / CPCB</div>
+      <div class="arch-item">🗺️ Maps / Traffic API</div>
+      <div class="arch-item">📱 Platform Signal</div>
+      <div class="arch-item">🛰️ GPS Feed</div>
+      <div class="arch-item">📡 Gov Alert Feed</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-col highlight-col">
+      <div class="arch-col-title">INTELLIGENCE CORE</div>
+      <div class="arch-item">🤖 Agentic Orchestrator</div>
+      <div class="arch-item">📊 Geo Baseline Engine</div>
+      <div class="arch-item">🔗 Multi-Trigger Fusion</div>
+      <div class="arch-item">💰 Dynamic Pricing Model</div>
+      <div class="arch-item">🔍 Isolation Forest (Fraud)</div>
+      <div class="arch-item">⭐ Trust Score Engine</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-col">
+      <div class="arch-col-title">OUTPUTS</div>
+      <div class="arch-item">💸 UPI (Razorpay mock)</div>
+      <div class="arch-item">📱 WhatsApp Alerts</div>
+      <div class="arch-item">📋 Rider Dashboard</div>
+      <div class="arch-item">🏢 Insurer Console</div>
+      <div class="arch-item">📈 Predictive Analytics</div>
+      <div class="arch-item">🗂️ Weekly Audit Log</div>
+    </div>
+  </div>
+  <div class="arch-note">All triggers are zone-relative. Baselines update weekly.</div>
+</section>
+
+<section class="section">
+  <div class="section-header"><h2>Formulas</h2></div>
+  <div class="formulas-list">
+    <div class="formula-item">
+      <div class="formula-name">Zone Trigger Threshold</div>
+      <div class="formula-box">μ(zone, last 90 days) + k × σ(zone)</div>
+    </div>
+    <div class="formula-item">
+      <div class="formula-name">Hourly Income Rate</div>
+      <div class="formula-box">f( last 7-day earnings, peak-hour multiplier, zone demand density )</div>
+    </div>
+    <div class="formula-item">
+      <div class="formula-name">Payout</div>
+      <div class="formula-box">LostHours × HourlyRate × LevelPct%</div>
+    </div>
+    <div class="formula-item">
+      <div class="formula-name">Dynamic Premium</div>
+      <div class="formula-box">Base(2.5% weekly) × ZoneRisk × Seasonal × (1 − TrustDiscount)</div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt-bg">
+  <div class="section-header"><h2>Tech Stack</h2></div>
+  <table class="tech-table">
+    <thead><tr><th>Layer</th><th>Choice</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Rider UX</td><td>WhatsApp Business API</td><td>Zero install – already used daily</td></tr>
+      <tr><td>AI / Logic</td><td>Python + LangChain / LlamaIndex</td><td>Agentic AI orchestration</td></tr>
+      <tr><td>ML Models</td><td>XGBoost · scikit-learn</td><td>Dynamic pricing, fraud detection</td></tr>
+      <tr><td>Backend</td><td>FastAPI (Python)</td><td>High-concurrency real-time processing</td></tr>
+      <tr><td>Database</td><td>PostgreSQL + Redis</td><td>Persistent data + live zone cache</td></tr>
+      <tr><td>Payments</td><td>Razorpay Test Mode</td><td>UPI simulation &lt;24h processing</td></tr>
+      <tr><td>Geo</td><td>Google Maps + Leaflet.js</td><td>Zone mapping + GPS validation</td></tr>
+      <tr><td>Weather</td><td>OpenWeatherMap</td><td>Reliable, India-wide coverage</td></tr>
+      <tr><td>AQI</td><td>OpenAQ / CPCB</td><td>India-specific monitoring nodes</td></tr>
+    </tbody>
+  </table>
+</section>
+{% endblock %}

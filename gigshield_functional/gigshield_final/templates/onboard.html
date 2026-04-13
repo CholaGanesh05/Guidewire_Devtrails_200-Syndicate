@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Get Protected{% endblock %}
+
+{% block content %}
+<section class="section onboard-section">
+  <div class="onboard-wrap">
+    <div class="onboard-header">
+      <div class="onboard-icon">🛡️</div>
+      <h1>Get Protected in 2 Minutes</h1>
+      <p>No app install needed. Fill this form — your policy activates instantly.</p>
+    </div>
+
+    {% if error %}
+      <div class="error-banner">⚠️ {{ error }}</div>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('onboard') }}" class="onboard-form" id="onboardForm">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" name="name" placeholder="e.g. Ravi Kumar" required class="form-input"/>
+      </div>
+      <div class="form-group">
+        <label>Phone Number (WhatsApp)</label>
+        <input type="tel" name="phone" placeholder="e.g. 9876543210" required pattern="[0-9]{10}" class="form-input"/>
+        <small>Your WhatsApp number — alerts and payouts sent here</small>
+      </div>
+      <div class="form-group">
+        <label>Delivery Zone</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <select name="zone" required class="form-input" id="zoneSelectForm" onchange="updatePremiumPreview()" style="flex: 1;">
+            {% for z in zones %}
+              <option value="{{ z }}">{{ z }}</option>
+            {% endfor %}
+          </select>
+          <button type="button" onclick="detectGPS()" id="gpsBtn" style="white-space: nowrap; padding: 0.8rem; background: #2f3542; color:#fff; border: 1px solid #4a5462; border-radius: 8px; cursor: pointer; transition: 0.3s;">📍 Detect GPS</button>
+        </div>
+        <small id="gpsStatus" style="color: #4ade80; display: none; margin-top: 5px;">Location found!</small>
+        <!-- Hidden geometry inputs to pass literal GPS to Flask! -->
+        <input type="hidden" name="sys_lat" id="hiddenLat" value="">
+        <input type="hidden" name="sys_lon" id="hiddenLon" value="">
+      </div>
+      <div class="form-group">
+        <label>Platform</label>
+        <div class="platform-btns">
+          {% for p in platforms %}
+            <label class="platform-radio">
+              <input type="radio" name="platform" value="{{ p }}" {% if p == 'Swiggy' %}checked{% endif %} onchange="updatePremiumPreview()"/>
+              <span>{{ p }}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Average Daily Earnings (₹)</label>
+        <input type="number" name="daily_earnings" id="earningsInput" placeholder="e.g. 800" value="800"
+               min="200" max="3000" required class="form-input" oninput="updatePremiumPreview()"/>
+      </div>
+
+      <!-- Live Premium Preview -->
+      <div class="premium-preview" id="premiumPreview">
+        <div class="preview-header">Weekly Premium Estimate (AI Calculated)</div>
+        <div class="preview-amount" id="previewAmount">₹—</div>
+        <div class="preview-details" id="previewDetails"></div>
+      </div>
+
+      <button type="submit" class="btn-primary btn-full">Activate Policy via UPI →</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  updatePremiumPreview();
+
+  const ZONE_COORDS = {
+    "Koramangala, Bengaluru": {lat: 12.9279, lon: 77.6271},
+    "Banjara Hills, Hyderabad": {lat: 17.4156, lon: 78.4419},
+    "Anna Nagar, Chennai": {lat: 13.0837, lon: 80.2117},
+    "Bandra West, Mumbai": {lat: 19.0596, lon: 72.8295},
+    "Connaught Place, Delhi": {lat: 28.6304, lon: 77.2177}
+  };
+
+  function distance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = Math.cos;
+    var a = 0.5 - c((lat2 - lat1) * p)/2 + 
+            c(lat1 * p) * c(lat2 * p) * 
+            (1 - c((lon2 - lon1) * p))/2;
+    return 12742 * Math.asin(Math.sqrt(a));
+  }
+
+  function detectGPS() {
+    const btn = document.getElementById('gpsBtn');
+    const status = document.getElementById('gpsStatus');
+    btn.innerHTML = 'Detecting...';
+    
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const userLat = position.coords.latitude;
+          const userLon = position.coords.longitude;
+          
+          try {
+             // True Dynamic Reverse Geocoding via OpenStreetMap!
+             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLat}&lon=${userLon}`);
+             const data = await res.json();
+             
+             // Build the richest possible human-readable location name
+             const a = data.address;
+             const parts = [];
+             if (a.road) parts.push(a.road);
+             if (a.suburb || a.neighbourhood || a.city_district) parts.push(a.suburb || a.neighbourhood || a.city_district);
+             if (a.city || a.town || a.village) parts.push(a.city || a.town || a.village);
+             if (a.state && !parts.join(', ').includes(a.state)) parts.push(a.state);
+             const locationName = parts.join(', ') || data.display_name.split(',').slice(0,3).join(',') || "Detected Location";
+
+             // Dynamically inject the literal unmapped name into the select
+             const select = document.getElementById('zoneSelectForm');
+             const dynOption = document.createElement('option');
+             dynOption.value = locationName;
+             dynOption.text = locationName;
+             select.add(dynOption, select[0]); // Push to top
+             select.value = locationName;
+
+             // Map the physical coordinates natively to the Python backend via hidden form fields
+             document.getElementById('hiddenLat').value = userLat;
+             document.getElementById('hiddenLon').value = userLon;
+
+             updatePremiumPreview();
+             status.style.display = 'block';
+             status.style.color = '#4ade80';
+             status.textContent = `📍 Reverse Geocoded: ${locationName}`;
+             btn.innerHTML = '📍 GPS Synced';
+             
+          } catch(e) {
+             status.style.display = 'block';
+             status.style.color = '#ff6b81';
+             status.textContent = '📍 GPS acquired, but naming failed. Using raw coords.';
+             btn.innerHTML = '📍 Detect GPS';
+          }
+        }, 
+        (error) => {
+          btn.innerHTML = '📍 Detect GPS';
+          status.style.display = 'block';
+          status.style.color = '#ff6b81';
+          status.textContent = 'Geolocation blocked or unavailable via browser.';
+        }
+      );
+    } else {
+      status.style.display = 'block';
+      status.style.color = '#ff6b81';
+      status.textContent = 'Geolocation is not supported by this browser.';
+    }
+  }
+
+  async function updatePremiumPreview() {
+    const zone = document.getElementById('zoneSelectForm').value;
+    const earnings = document.getElementById('earningsInput').value || 800;
+    const res = await fetch(`/api/premium-preview?zone=${encodeURIComponent(zone)}&earnings=${earnings}&trust=50`);
+    const d = await res.json();
+    document.getElementById('previewAmount').textContent = `₹${d.premium}/week`;
+    document.getElementById('previewDetails').innerHTML =
+      `Weekly earnings: ₹${d.weekly_earnings} &nbsp;|&nbsp; Max daily payout: ₹${d.max_daily_payout} &nbsp;|&nbsp; Trust tier: ${d.trust_tier}`;
+  }
+</script>
+{% endblock %}

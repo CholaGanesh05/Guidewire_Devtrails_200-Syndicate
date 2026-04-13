@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block title %}How It Works{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="section-header">
+    <h2>How ArthSahay Works</h2>
+    <p>End-to-end flow from onboarding to UPI payout</p>
+  </div>
+
+  <!-- Flow steps -->
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <h3>Onboard via WhatsApp (2 min)</h3>
+        <p>Name · Zone · Platform · Avg daily earnings → Policy active instantly</p>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <h3>AI Risk Profiling</h3>
+        <p>Zone baseline built from 90-day historical data. Seasonal modifier applied. Trust score initialised at 50.</p>
+        <div class="formula-box sm">Zone Threshold = μ(zone, 90d) + k × σ(zone)</div>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <h3>Dynamic Weekly Premium</h3>
+        <p>AI-calculated each week. ₹15–₹40 range based on zone risk + season + trust tier.</p>
+        <div class="formula-box sm">Premium = Base(2.5%) × ZoneRisk × Seasonal × (1 − TrustDiscount)</div>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="step-num">04</div>
+      <div class="step-body">
+        <h3>Disruption Detected</h3>
+        <p>Agentic AI continuously monitors rain, AQI, traffic, platform demand. Multi-signal fusion determines level.</p>
+        <div class="formula-box sm">Rain(L3) + AQI(L2) → fused → L3 payout</div>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="step-num">05</div>
+      <div class="step-body">
+        <h3>AI Validation (4 checks)</h3>
+        <div class="check-list">
+          <span>✅ GPS in disruption zone</span>
+          <span>✅ Order volume drop confirmed</span>
+          <span>✅ No GPS spoof detected</span>
+          <span>✅ No prior claim today</span>
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="step-num">06</div>
+      <div class="step-body">
+        <h3>Payout Calculated & Sent</h3>
+        <div class="formula-box sm">Payout = LostHours × (DailyEarnings ÷ 8) × LevelPct%</div>
+        <p>UPI credit within 24 hours. WhatsApp confirmation sent.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE SCENARIO SIMULATOR -->
+<section class="section alt-bg">
+  <div class="section-header">
+    <h2>🔬 Live Scenario Simulator</h2>
+    <p>Enter a rider profile and see the complete calculation live</p>
+  </div>
+
+  <div class="simulator-wrap">
+    <div class="sim-inputs">
+      <div class="form-group">
+        <label>Zone</label>
+        <select id="simZone" class="form-input" onchange="runSimulation()">
+          <option value="Koramangala, Bengaluru">Koramangala, Bengaluru</option>
+          <option value="Banjara Hills, Hyderabad">Banjara Hills, Hyderabad</option>
+          <option value="Anna Nagar, Chennai">Anna Nagar, Chennai</option>
+          <option value="Vaishali Nagar, Jaipur">Vaishali Nagar, Jaipur</option>
+          <option value="Andheri West, Mumbai">Andheri West, Mumbai</option>
+          <option value="Malleshwaram, Bengaluru">Malleshwaram, Bengaluru</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Daily Earnings (₹)</label>
+        <input type="number" id="simEarnings" value="800" min="200" max="3000" class="form-input" oninput="runSimulation()"/>
+      </div>
+      <button onclick="runSimulation()" class="btn-primary">Run Simulation</button>
+    </div>
+
+    <div class="sim-results" id="simResults">
+      <div class="sim-loading">Click "Run Simulation" to see live results →</div>
+    </div>
+  </div>
+
+  <!-- Ravi's Example -->
+  <div class="ravi-example">
+    <h3>📍 Ravi's Koramangala Wednesday 3PM Example</h3>
+    <div class="ravi-data">
+      <div class="ravi-row"><span>Rain</span><span>48 mm/hr (baseline: 22 mm/hr → +118%)</span></div>
+      <div class="ravi-row"><span>AQI</span><span>342 (threshold: 200 → +71%)</span></div>
+      <div class="ravi-row"><span>Fusion</span><span>Rain(L3) + AQI(L2) → <strong>L3</strong></span></div>
+      <div class="ravi-row"><span>Hourly Rate</span><span>₹800 ÷ 8 = ₹100/hr</span></div>
+      <div class="ravi-row"><span>Lost Hours</span><span>4 hrs (peak window blocked)</span></div>
+      <div class="ravi-row"><span>Payout</span><span><strong>4 × ₹100 × 75% = ₹300</strong></span></div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+runSimulation();
+
+async function runSimulation() {
+  const zone = document.getElementById('simZone').value;
+  const earnings = document.getElementById('simEarnings').value || 800;
+  const res = await fetch(`/api/simulate-scenario?zone=${encodeURIComponent(zone)}&earnings=${earnings}`);
+  const d = await res.json();
+
+  const colors = ['#27ae60','#f39c12','#e67e22','#e74c3c','#8e44ad'];
+  const c = colors[d.disruption_level];
+  const pct = [0,25,50,75,100][d.disruption_level];
+
+  document.getElementById('simResults').innerHTML = `
+    <div class="sim-result-grid">
+      <div class="sim-result-card">
+        <div class="src-label">Current Conditions</div>
+        <div class="src-rows">
+          <div>🌧️ Rain: ${d.conditions.rain_mm_hr} mm/hr</div>
+          <div>💨 AQI: ${d.conditions.aqi}</div>
+          <div>🌡️ Temp: ${d.conditions.temp_c}°C</div>
+          <div>🚧 Traffic: ${d.conditions.traffic_pct}%</div>
+        </div>
+      </div>
+      <div class="sim-result-card">
+        <div class="src-label">Disruption Assessment</div>
+        <div class="src-rows">
+          <div>Level: <strong style="color:${c}">${d.level_label}</strong></div>
+          <div>Payout rate: ${pct}%</div>
+          <div>Disruption hours: ${d.disruption_hours}h</div>
+          <div>Hourly rate: ₹${d.hourly_rate}</div>
+        </div>
+      </div>
+      <div class="sim-result-card highlight" style="border-color:${c}">
+        <div class="src-label">Payout Calculation</div>
+        <div class="payout-calc">
+          <div>${d.disruption_hours}h × ₹${d.hourly_rate} × ${pct}%</div>
+          <div class="calc-result" style="color:${c}">= ₹${d.estimated_payout}</div>
+          <div class="calc-premium">Weekly premium: ₹${d.weekly_premium}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+</script>
+{% endblock %}

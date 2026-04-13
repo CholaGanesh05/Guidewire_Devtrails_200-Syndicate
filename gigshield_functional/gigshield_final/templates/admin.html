@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block title %}Insurer Console{% endblock %}
+
+{% block content %}
+<section class="section" style="max-width:1200px">
+
+  <div class="admin-header">
+    <div>
+      <h1 class="admin-title">🏢 Insurer Console</h1>
+      <p class="admin-sub">Real-time portfolio view · ArthSahay India Operations</p>
+    </div>
+    <div class="admin-live">
+      <span class="live-dot">● LIVE</span>
+      <button onclick="loadStats()" class="btn-ghost btn-sm">↻ Refresh</button>
+    </div>
+  </div>
+
+  <!-- KPI Row -->
+  <div class="kpi-row" id="kpiRow">
+    <div class="kpi-card"><div class="kpi-val" id="kTotalRiders">—</div><div class="kpi-lbl">Total Riders</div></div>
+    <div class="kpi-card"><div class="kpi-val" id="kPremiums">—</div><div class="kpi-lbl">Premiums Collected</div></div>
+    <div class="kpi-card"><div class="kpi-val" id="kPayouts">—</div><div class="kpi-lbl">Total Paid Out</div></div>
+    <div class="kpi-card highlight-kpi"><div class="kpi-val" id="kLossRatio">—</div><div class="kpi-lbl">Loss Ratio</div></div>
+    <div class="kpi-card"><div class="kpi-val" id="kClaims">—</div><div class="kpi-lbl">Total Claims</div></div>
+    <div class="kpi-card"><div class="kpi-val" id="kAvgPremium">—</div><div class="kpi-lbl">Avg Premium</div></div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="charts-row">
+    <div class="chart-panel">
+      <div class="panel-title">Platform Distribution</div>
+      <canvas id="platformChart" height="200"></canvas>
+    </div>
+    <div class="chart-panel">
+      <div class="panel-title">Trust Tier Distribution</div>
+      <canvas id="tierChart" height="200"></canvas>
+    </div>
+    <div class="chart-panel wide">
+      <div class="panel-title">Zone Risk & Payouts</div>
+      <canvas id="zoneChart" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- Recent Payouts -->
+  <div class="dash-panel" style="margin-top:1.5rem">
+    <div class="panel-title">🔔 Recent Payout Events</div>
+    <table class="history-table" id="recentPayoutsTable">
+      <thead><tr><th>Rider</th><th>Zone</th><th>Date</th><th>Level</th><th>Payout</th><th>Rain</th><th>AQI</th></tr></thead>
+      <tbody id="recentPayoutsBody"><tr><td colspan="7" style="color:#7a8ba8;text-align:center;padding:1rem">Loading...</td></tr></tbody>
+    </table>
+  </div>
+
+  <!-- Riders Table -->
+  <div class="dash-panel" style="margin-top:1.5rem">
+    <div class="panel-title">👥 All Riders</div>
+    <div style="overflow-x:auto">
+      <table class="history-table" id="ridersTable">
+        <thead><tr><th>Name</th><th>Zone</th><th>Platform</th><th>Earnings/day</th><th>Premium</th><th>Trust</th><th>Claims</th><th>Paid Out</th><th>Status</th></tr></thead>
+        <tbody id="ridersBody"><tr><td colspan="9" style="color:#7a8ba8;text-align:center;padding:1rem">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Live Zone Status -->
+  <div class="dash-panel" style="margin-top:1.5rem">
+    <div class="panel-title">🌐 Live Zone Status</div>
+    <div class="zone-status-grid" id="zoneStatusGrid">Loading...</div>
+  </div>
+
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+let platformChart, tierChart, zoneChart;
+loadStats();
+setInterval(loadStats, 30000);
+
+async function loadStats() {
+  const res = await fetch('/api/admin/stats');
+  const d = await res.json();
+  const s = d.summary;
+
+  document.getElementById('kTotalRiders').textContent  = s.total_riders;
+  document.getElementById('kPremiums').textContent     = '₹' + s.total_premiums.toLocaleString();
+  document.getElementById('kPayouts').textContent      = '₹' + s.total_payouts_amt.toLocaleString();
+  document.getElementById('kLossRatio').textContent    = s.loss_ratio + '%';
+  document.getElementById('kClaims').textContent       = s.total_claims;
+  document.getElementById('kAvgPremium').textContent   = '₹' + s.avg_premium;
+
+  // Color loss ratio
+  const lr = document.getElementById('kLossRatio');
+  lr.style.color = s.loss_ratio > 80 ? '#e74c3c' : s.loss_ratio > 60 ? '#f39c12' : '#27ae60';
+
+  drawPlatformChart(d.platform_counts);
+  drawTierChart(d.tier_dist);
+  drawZoneChart(d.zone_stats);
+  drawRecentPayouts(d.recent_payouts);
+  drawRidersTable(d.riders);
+  loadZoneStatus();
+}
+
+function drawPlatformChart(data) {
+  const ctx = document.getElementById('platformChart').getContext('2d');
+  if (platformChart) platformChart.destroy();
+  platformChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(data),
+      datasets: [{ data: Object.values(data), backgroundColor: ['#00d2be','#f5a623','#8e44ad'], borderWidth: 0 }]
+    },
+    options: { plugins: { legend: { labels: { color: '#e8edf5', font: { size: 12 } } } } }
+  });
+}
+
+function drawTierChart(data) {
+  const ctx = document.getElementById('tierChart').getContext('2d');
+  if (tierChart) tierChart.destroy();
+  tierChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Bronze 🥉', 'Silver 🥈', 'Gold 🥇'],
+      datasets: [{ data: [data.Bronze, data.Silver, data.Gold], backgroundColor: ['#cd7f32','#aaa9ad','#f5a623'], borderWidth: 0 }]
+    },
+    options: { plugins: { legend: { labels: { color: '#e8edf5', font: { size: 12 } } } } }
+  });
+}
+
+function drawZoneChart(zoneStats) {
+  const ctx = document.getElementById('zoneChart').getContext('2d');
+  if (zoneChart) zoneChart.destroy();
+  const labels = Object.keys(zoneStats).map(z => z.split(',')[0]);
+  const premiums = Object.values(zoneStats).map(z => z.premium_collected);
+  const payouts  = Object.values(zoneStats).map(z => z.payouts);
+  zoneChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Premiums Collected', data: premiums, backgroundColor: '#00d2be66', borderColor: '#00d2be', borderWidth: 1, borderRadius: 4 },
+        { label: 'Payouts',            data: payouts,  backgroundColor: '#e74c3c66', borderColor: '#e74c3c', borderWidth: 1, borderRadius: 4 },
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: '#e8edf5', font: { size: 11 } } } },
+      scales: {
+        x: { ticks: { color: '#7a8ba8', font: { size: 10 } }, grid: { color: '#1e2d45' } },
+        y: { ticks: { color: '#7a8ba8', callback: v => '₹'+v }, grid: { color: '#1e2d45' } }
+      }
+    }
+  });
+}
+
+function drawRecentPayouts(events) {
+  const tbody = document.getElementById('recentPayoutsBody');
+  if (!events.length) { tbody.innerHTML = '<tr><td colspan="7" style="color:#7a8ba8;text-align:center;padding:1rem">No events yet</td></tr>'; return; }
+  const colors = ['#27ae60','#f39c12','#e67e22','#e74c3c','#8e44ad'];
+  tbody.innerHTML = events.map(e => `
+    <tr>
+      <td>${e.rider_name}</td>
+      <td>${e.zone}</td>
+      <td>${e.date} ${e.time || ''}</td>
+      <td style="color:${colors[e.level]}">${e.level_label}</td>
+      <td class="payout-amt">₹${e.payout}</td>
+      <td>${e.conditions?.rain || '—'} mm</td>
+      <td>${e.conditions?.aqi || '—'}</td>
+    </tr>
+  `).join('');
+}
+
+function drawRidersTable(riders) {
+  const tbody = document.getElementById('ridersBody');
+  const tiers = { Bronze: '#cd7f32', Silver: '#aaa9ad', Gold: '#f5a623' };
+  tbody.innerHTML = riders.map(r => `
+    <tr>
+      <td>${r.name}</td>
+      <td>${r.zone.split(',')[0]}</td>
+      <td>${r.platform}</td>
+      <td>₹${r.daily_earnings}</td>
+      <td>₹${r.premium}/wk</td>
+      <td><span style="color:${tiers[r.tier]}">${r.tier} (${r.trust_score})</span></td>
+      <td>${r.claims}</td>
+      <td class="payout-amt">₹${r.total_paid_out}</td>
+      <td><span style="color:${r.active ? '#27ae60' : '#e74c3c'}">${r.active ? 'Active' : 'Inactive'}</span></td>
+    </tr>
+  `).join('');
+}
+
+async function loadZoneStatus() {
+  const res = await fetch('/api/zone-compare');
+  const zones = await res.json();
+  const colors = ['#27ae60','#f39c12','#e67e22','#e74c3c','#8e44ad'];
+  document.getElementById('zoneStatusGrid').innerHTML = zones.map(z => `
+    <div class="zs-card" style="border-color:${colors[z.current_level]}">
+      <div class="zs-zone">${z.zone.split(',')[0]}</div>
+      <div class="zs-city" style="color:${colors[z.current_level]}">${z.current_label}</div>
+      <div class="zs-detail">🌧️ ${z.live_rain}mm · 💨 ${z.live_aqi} AQI · 🌡️ ${z.live_temp}°C</div>
+      <div class="zs-risk">Risk Score: ${z.risk_score}/100</div>
+    </div>
+  `).join('');
+}
+</script>
+{% endblock %}
